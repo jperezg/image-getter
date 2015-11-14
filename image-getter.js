@@ -16,12 +16,14 @@ var ImageGetter = function(url) {
 
   var get = function() {
     var request = new XMLHttpRequest();
-    request.open("GET", src, true);
+    request.open("GET", url, true);
     request.responseType = 'blob';  
     
     request.onloadstart = events.loadstart;
     request.onprogress = events.progress;
-    request.onload = events.load;
+    request.onload = function(){
+      events.load(window.URL.createObjectURL(this.response), this.response);
+    };
 
     request.send(null);
 
